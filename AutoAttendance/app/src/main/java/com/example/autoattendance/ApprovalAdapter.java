@@ -38,7 +38,7 @@ public class ApprovalAdapter extends  RecyclerView.Adapter<ApprovalAdapter.Appro
         holder.approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_approvalFragment_to_FirstFragment);
+                Navigation.findNavController(v).navigate(R.id.action_approvalFragment_to_studentInClassFragment);
             }
         });
     }

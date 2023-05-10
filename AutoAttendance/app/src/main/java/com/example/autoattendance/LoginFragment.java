@@ -161,5 +161,12 @@ public class LoginFragment extends Fragment {
                 Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_approvalFragment);
             }
         });
+
+        binding.buttonLecturer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_lectureMenuFragment);
+            }
+        });
     }
 }

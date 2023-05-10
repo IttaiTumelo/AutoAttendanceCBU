@@ -44,6 +44,12 @@
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
+            android:id="@+id/action_loginFragment_to_lectureMenuFragment"
+            app:destination="@id/lectureMenuFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_studentInClassFragment"
+            app:destination="@id/studentInClassFragment" />
+        <action
             android:id="@+id/action_loginFragment_to_approvalFragment"
             app:destination="@id/approvalFragment" />
     </fragment>
@@ -53,7 +59,17 @@
         android:label="Lecture Approval"
         tools:layout="@layout/fragment_approval" >
         <action
-            android:id="@+id/action_approvalFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_approvalFragment_to_studentInClassFragment"
+            app:destination="@id/studentInClassFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/lectureMenuFragment"
+        android:name="com.example.autoattendance.LectureMenuFragment"
+        android:label="Lecturer Menu"
+        tools:layout="@layout/fragment_lecture_menu" />
+    <fragment
+        android:id="@+id/studentInClassFragment"
+        android:name="com.example.autoattendance.StudentInClassFragment"
+        android:label="fragment_student_in_class"
+        tools:layout="@layout/fragment_student_in_class" />
 </navigation>

@@ -1,6 +1,8 @@
 package com.example.autoattendance;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 
@@ -15,6 +17,7 @@ import android.security.keystore.KeyProperties;
 import android.view.View;
 
 import androidx.biometric.BiometricPrompt;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -46,6 +49,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 2;
     KeyGenerator keyGenerator;
     KeyStore keyStore;
     SecretKey key;
@@ -72,9 +76,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (InvalidKeyException | KeyStoreException | UnrecoverableKeyException |
                  NoSuchPaddingException | CertificateException | IOException |
                  NoSuchAlgorithmException  e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You have made changes to your biometrics", Toast.LENGTH_SHORT).show();
             //TODO: Handle the exception by requiring that the user asks for the admin to check the users fingerprints
         }
+
+
+
+
 
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());

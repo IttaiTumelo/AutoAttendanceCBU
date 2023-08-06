@@ -32,9 +32,9 @@ public class ApprovalAdapter extends  RecyclerView.Adapter<ApprovalAdapter.Appro
     @Override
     public void onBindViewHolder(@NonNull ApprovalViewHolder holder, int position) {
         Course course = approvalArrayList.get(position);
-        holder.courseName.setText(course.getCourseName());
-        holder.courseCode.setText(course.getCourseCode());
-        holder.courseInstructor.setText(course.getCourseInstructor());
+        holder.courseName.setText(course.getName());
+//        holder.courseCode.setText(course.getCourseCode());
+//        holder.courseInstructor.setText(course.getCourseInstructor());
         holder.approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +45,9 @@ public class ApprovalAdapter extends  RecyclerView.Adapter<ApprovalAdapter.Appro
 
     @Override
     public int getItemCount() {
+        if(approvalArrayList!=null)
         return approvalArrayList.size();
+        else return 0;
     }
 
     public static class ApprovalViewHolder extends RecyclerView.ViewHolder {

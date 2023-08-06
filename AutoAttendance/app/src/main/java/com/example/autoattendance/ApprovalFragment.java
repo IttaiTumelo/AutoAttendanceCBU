@@ -16,6 +16,7 @@ import com.example.autoattendance.databinding.FragmentApprovalBinding;
 import com.example.autoattendance.databinding.FragmentLoginBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,61 +89,66 @@ public class ApprovalFragment extends Fragment {
     }
 
     private void loadData() {
-        courseList = new ArrayList<>();
-        courseList.add(
-                new Course(
-                        "Introduction to Computer Science",
-                        "CSE 101",
-                        "Dr. John Doe",
-                        "MWF 10:00 AM - 10:50 AM",
-                        "https://www.cs.arizona.edu/sites/default/files/styles/inline_featured_image/public/inline-images/CS101%20-%20Fall%202020%20-%20Banner%20-%20v2.png?itok=Z5Q4Z3Zw",
-                        "Fall 2020",
-                        "Approved"
-                )
-        );
-        courseList.add(
-                new Course(
-                        "Introduction to Algorithms",
-                        "CSE 101",
-                        "Dr. Jane Mukupa",
-                        "MWF 08:00 AM - 08:50 AM",
-                        "https://www.cs.arizona.edu/sites/default/files/styles/inline_featured_image/public/inline-images/CS101%20-%20Fall%202020%20-%20Banner%20-%20v2.png?itok=Z5Q4Z3Zw",
-                        "Fall 2020",
-                        "Approved"
-                )
-        );
-        courseList.add(
-                new Course(
-                        "Introduction to Computer Science",
-                        "CSE 101",
-                        "Dr. John Doe",
-                        "MWF 10:00 AM - 10:50 AM",
-                        "https://www.cs.arizona.edu/sites/default/files/styles/inline_featured_image/public/inline-images/CS101%20-%20Fall%202020%20-%20Banner%20-%20v2.png?itok=Z5Q4Z3Zw",
-                        "Fall 2020",
-                        "Approved"
-                )
-        );
-        courseList.add(
-                new Course(
-                        "Introduction to Algorithms",
-                        "CSE 101",
-                        "Dr. Jane Mukupa",
-                        "MWF 08:00 AM - 08:50 AM",
-                        "https://www.cs.arizona.edu/sites/default/files/styles/inline_featured_image/public/inline-images/CS101%20-%20Fall%202020%20-%20Banner%20-%20v2.png?itok=Z5Q4Z3Zw",
-                        "Fall 2020",
-                        "Approved"
-                )
-        );
-        courseList.add(
-                new Course(
-                        "Introduction to Computer Science",
-                        "CSE 101",
-                        "Dr. John Doe",
-                        "MWF 10:00 AM - 10:50 AM",
-                        "https://www.cs.arizona.edu/sites/default/files/styles/inline_featured_image/public/inline-images/CS101%20-%20Fall%202020%20-%20Banner%20-%20v2.png?itok=Z5Q4Z3Zw",
-                        "Fall 2020",
-                        "Approved"
-                )
-        );
+        BaseStatics baseStatics = new BaseStatics();
+        courseList = (ArrayList<Course>) baseStatics.getCourses();
+        Course course = new Course();
+        course.name="Whar";
+        courseList.add(course);
+//        courseList = new ArrayList<>();
+//        courseList.add(
+//                new Course(
+//                        "Introduction to Computer Science",
+//                        "CSE 101",
+//                        "Dr. John Doe",
+//                        "MWF 10:00 AM - 10:50 AM",
+//                        "https://www.cs.arizona.edu/sites/default/files/styles/inline_featured_image/public/inline-images/CS101%20-%20Fall%202020%20-%20Banner%20-%20v2.png?itok=Z5Q4Z3Zw",
+//                        "Fall 2020",
+//                        "Approved"
+//                )
+//        );
+//        courseList.add(
+//                new Course(
+//                        "Introduction to Algorithms",
+//                        "CSE 101",
+//                        "Dr. Jane Mukupa",
+//                        "MWF 08:00 AM - 08:50 AM",
+//                        "https://www.cs.arizona.edu/sites/default/files/styles/inline_featured_image/public/inline-images/CS101%20-%20Fall%202020%20-%20Banner%20-%20v2.png?itok=Z5Q4Z3Zw",
+//                        "Fall 2020",
+//                        "Approved"
+//                )
+//        );
+//        courseList.add(
+//                new Course(
+//                        "Introduction to Computer Science",
+//                        "CSE 101",
+//                        "Dr. John Doe",
+//                        "MWF 10:00 AM - 10:50 AM",
+//                        "https://www.cs.arizona.edu/sites/default/files/styles/inline_featured_image/public/inline-images/CS101%20-%20Fall%202020%20-%20Banner%20-%20v2.png?itok=Z5Q4Z3Zw",
+//                        "Fall 2020",
+//                        "Approved"
+//                )
+//        );
+//        courseList.add(
+//                new Course(
+//                        "Introduction to Algorithms",
+//                        "CSE 101",
+//                        "Dr. Jane Mukupa",
+//                        "MWF 08:00 AM - 08:50 AM",
+//                        "https://www.cs.arizona.edu/sites/default/files/styles/inline_featured_image/public/inline-images/CS101%20-%20Fall%202020%20-%20Banner%20-%20v2.png?itok=Z5Q4Z3Zw",
+//                        "Fall 2020",
+//                        "Approved"
+//                )
+//        );
+//        courseList.add(
+//                new Course(
+//                        "Introduction to Computer Science",
+//                        "CSE 101",
+//                        "Dr. John Doe",
+//                        "MWF 10:00 AM - 10:50 AM",
+//                        "https://www.cs.arizona.edu/sites/default/files/styles/inline_featured_image/public/inline-images/CS101%20-%20Fall%202020%20-%20Banner%20-%20v2.png?itok=Z5Q4Z3Zw",
+//                        "Fall 2020",
+//                        "Approved"
+//                )
+//        );
     }
 }

@@ -2,6 +2,7 @@ package com.example.autoattendance;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.preference.PreferenceManager;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
@@ -60,7 +62,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences;
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String username = sharedPreferences.getString("username", null);
+        String studentNumber = sharedPreferences.getString("studentNumber", null);
+        boolean approved = sharedPreferences.getBoolean("approved", false);
+
+        if(studentNumber != null) {
+            if(approved) {
+//                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_studentInClassFragment2);
+            }
+            else {
+//                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_approvalFragment);
+            }
+        }
 
 
 //        Create a key Generator

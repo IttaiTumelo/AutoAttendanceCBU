@@ -16,10 +16,11 @@ import java.util.ArrayList;
 public class ApprovalAdapter extends  RecyclerView.Adapter<ApprovalAdapter.ApprovalViewHolder> {
 
     Context context;
-    ArrayList<Course> approvalArrayList;
+    ArrayList<Course> approvalArrayList; //TODO : filter by student
     public ApprovalAdapter(Context context, ArrayList<Course> approvalArrayList) {
         this.context = context;
         this.approvalArrayList = approvalArrayList;
+
     }
 
     @NonNull
@@ -33,14 +34,15 @@ public class ApprovalAdapter extends  RecyclerView.Adapter<ApprovalAdapter.Appro
     public void onBindViewHolder(@NonNull ApprovalViewHolder holder, int position) {
         Course course = approvalArrayList.get(position);
         holder.courseName.setText(course.getName());
+//        holder.courseCode.setText(course.);
 //        holder.courseCode.setText(course.getCourseCode());
 //        holder.courseInstructor.setText(course.getCourseInstructor());
-        holder.approveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_approvalFragment_to_studentInClassFragment);
-            }
-        });
+//        holder.approveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Navigation.findNavController(v).navigate(R.id.action_approvalFragment_to_studentInClassFragment);
+//            }
+//        });
     }
 
     @Override
@@ -58,9 +60,9 @@ public class ApprovalAdapter extends  RecyclerView.Adapter<ApprovalAdapter.Appro
         public ApprovalViewHolder(@NonNull View itemView) {
             super(itemView);
             courseName = itemView.findViewById(R.id.text_view_course_name);
-            courseCode = itemView.findViewById(R.id.text_view_course_code);
-            courseInstructor = itemView.findViewById(R.id.text_view_course_lecturer);
-            approveButton = itemView.findViewById(R.id.button_request_approval);
+//            courseCode = itemView.findViewById(R.id.text_view_course_code);
+//            courseInstructor = itemView.findViewById(R.id.text_view_course_lecturer);
+//            approveButton = itemView.findViewById(R.id.button_request_approval);
         }
     }
 }

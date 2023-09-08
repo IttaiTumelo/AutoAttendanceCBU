@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_loginFragment_to_approvalFragment"
             app:destination="@id/approvalFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_studentInClassFragment2"
+            app:destination="@id/studentInClassFragment" />
     </fragment>
     <fragment
         android:id="@+id/approvalFragment"

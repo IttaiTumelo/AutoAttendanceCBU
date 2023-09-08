@@ -1,5 +1,8 @@
 package com.example.autoattendance;
 
+import static com.example.autoattendance.BaseStatics.retrofit;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,10 @@ import com.example.autoattendance.databinding.FragmentLoginBinding;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LoginFragment#newInstance} factory method to
@@ -29,6 +37,7 @@ public class LoginFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    AttendanceApi attendanceApi =  retrofit.create(AttendanceApi.class);
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private FragmentLoginBinding binding;
@@ -36,7 +45,7 @@ public class LoginFragment extends Fragment {
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
-
+    private MyDatabaseHelper myDB;
 
     private boolean authenticationPassed = false;
     private boolean authenticationCompleted = false;
@@ -89,6 +98,31 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         executor = ContextCompat.getMainExecutor(getContext());
+        //reading from shared myDb
+        myDB = new MyDatabaseHelper(getContext());
+        String studentNumber = myDB.getStudentNumber();
+        Toast.makeText(getContext(), "id student  " + studentNumber, Toast.LENGTH_SHORT).show();
+
+        attendanceApi.getStudent(studentNumber).enqueue(new Callback<Student>() {
+            @Override
+            public void onResponse(Call<Student> call, Response<Student> response) {
+                if(response.body().Enrolled) {
+                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_studentInClassFragment2);
+                }
+                else {
+                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_approvalFragment);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Student> call, Throwable t) {
+                Toast.makeText(getContext(), "id student  " + studentNumber, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Failed to get student  " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
         biometricPrompt = new BiometricPrompt(getActivity(), executor, new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode,

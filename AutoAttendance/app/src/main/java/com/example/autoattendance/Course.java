@@ -1,5 +1,7 @@
 package com.example.autoattendance;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -13,8 +15,36 @@ import lombok.Setter;
 public class Course extends BaseEntity {
     public int minYear;
 
+    @SerializedName("body")
+    private String text;
+
     public List<Lecture> Lectures;
-//    private String courseName;
+
+    public int getMinYear() {
+        return minYear;
+    }
+
+    public void setMinYear(int minYear) {
+        this.minYear = minYear;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public List<Lecture> getLectures() {
+        return Lectures;
+    }
+
+    public void setLectures(List<Lecture> lectures) {
+        Lectures = lectures;
+    }
+
+    //    private String courseName;
 //    private String courseCode;
 //    private String courseInstructor;
 //    private String courseTime;

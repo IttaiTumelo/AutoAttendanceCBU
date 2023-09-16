@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Handler;
 import android.os.Message;
@@ -122,7 +123,9 @@ public class LectureMenuFragment extends Fragment {
             }
         }
 
-
+        binding.buttonStudentApprovals.setOnClickListener(v -> {
+            NavHostFragment.findNavController(LectureMenuFragment.this).navigate(R.id.action_lectureMenuFragment_to_approvalFragment);
+        });
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         binding.materialSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {

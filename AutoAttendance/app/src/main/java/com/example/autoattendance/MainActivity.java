@@ -2,6 +2,7 @@ package com.example.autoattendance;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
@@ -62,21 +63,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPreferences;
+//        SharedPreferences sharedPreferences;
+//        SharedPreferences.Editor editor;
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = sharedPreferences.getString("username", null);
-        String studentNumber = sharedPreferences.getString("studentNumber", null);
-        boolean approved = sharedPreferences.getBoolean("approved", false);
+//        sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
+//
+//        sharedPreferences.edit().putBoolean("approved", false).apply();
+////        sharedPreferences.edit().putInt("programId").apply();
+//        sharedPreferences.edit().putString("studentNumber", "response.body().StudentNumber").apply();
+//        editor.apply();
+//
+//        if(studentNumber != null) {
+//            if(approved) {
+////                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_studentInClassFragment2);
+//            }
+//            else {
+////                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_approvalFragment);
+//            }
+//        }
 
-        if(studentNumber != null) {
-            if(approved) {
-//                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_studentInClassFragment2);
-            }
-            else {
-//                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_approvalFragment);
-            }
-        }
+
+
 
 
 //        Create a key Generator
@@ -92,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (InvalidKeyException | KeyStoreException | UnrecoverableKeyException |
                  NoSuchPaddingException | CertificateException | IOException |
                  NoSuchAlgorithmException  e){
-            Toast.makeText(this, "You have made changes to your biometrics", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "You have made changes to your biometrics", Toast.LENGTH_SHORT).show();
             //TODO: Handle the exception by requiring that the user asks for the admin to check the users fingerprints
         }
 
@@ -152,4 +160,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void StoreData(String key, boolean value) {
+        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+    public void StoreData(String key, String value) {
+        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+    public void StoreData(String key, int value) {
+        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
 }

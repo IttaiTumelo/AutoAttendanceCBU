@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,6 @@ public class LoginFragment extends Fragment {
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
-    private MyDatabaseHelper myDB;
 
     private boolean authenticationPassed = false;
     private boolean authenticationCompleted = false;
@@ -99,27 +99,47 @@ public class LoginFragment extends Fragment {
 
         executor = ContextCompat.getMainExecutor(getContext());
         //reading from shared myDb
-        myDB = new MyDatabaseHelper(getContext());
-        String studentNumber = myDB.getStudentNumber();
-        Toast.makeText(getContext(), "id student  " + studentNumber, Toast.LENGTH_SHORT).show();
 
-        attendanceApi.getStudent(studentNumber).enqueue(new Callback<Student>() {
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        boolean approved = sharedPref.getBoolean("approved", false);
+        int studentId = sharedPref.getInt("studentId", -1);
+        int programId = sharedPref.getInt("programId", 0);
+
+
+
+
+        if(!approved && studentId != -1 && programId != 0) {
+            //Go to Approval Activity
+            Toast.makeText(getContext(), "re-routing you", Toast.LENGTH_SHORT).show();
+            attendanceApi.getStudentById(studentId).enqueue(new Callback<Student>() {
             @Override
             public void onResponse(Call<Student> call, Response<Student> response) {
-                if(response.body().Enrolled) {
+                Log.d("LoginFragment", "onResponse: " + response.toString());
+                if(response.body().isApproved) {
+                    Toast.makeText(getContext(), "approved", Toast.LENGTH_SHORT).show();
+                    ((MainActivity)getActivity()).StoreData("approved", true);
                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_studentInClassFragment2);
                 }
                 else {
-                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_approvalFragment);
+                    Toast.makeText(getContext(), "not approved", Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_waitingApprovalFragment);
                 }
             }
 
             @Override
             public void onFailure(Call<Student> call, Throwable t) {
-                Toast.makeText(getContext(), "id student  " + studentNumber, Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getContext(), "Failed to get student  " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "faild to get student with " + studentId, Toast.LENGTH_SHORT).show();
             }
         });
+        }
+        else{
+            Toast.makeText(getContext(), "not re-routing you", Toast.LENGTH_SHORT).show();
+        }
+
+
+//        Toast.makeText(getContext(), "xid student  " + studentId, Toast.LENGTH_SHORT).show();
+
 
 
 
@@ -192,7 +212,55 @@ public class LoginFragment extends Fragment {
         binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_approvalFragment);
+                String id = binding.editTextUsername.getText().toString();
+                String password = binding.editTextPassword.getText().toString();
+
+                AttendanceApi attendanceApi =  retrofit.create(AttendanceApi.class);
+                attendanceApi.getStudentBySIN(id).enqueue(new Callback<Student>() {
+                    @Override
+                    public void onResponse(Call<Student> call, Response<Student> response) {
+                        if(response.isSuccessful()){
+                            Student student = response.body();
+                            if(student.password.equals(password)){
+                                attendanceApi.rejectStudent(student.id).enqueue(new Callback<Student>() {
+                                    @Override
+                                    public void onResponse(Call<Student> call, Response<Student> response) {
+                                        if(response.isSuccessful()){
+                                            Toast.makeText(getContext(), "Request Sent", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                            ((MainActivity)getActivity()).StoreData("studentId", student.id);
+                                            ((MainActivity)getActivity()).StoreData("programId", student.programId);
+                                            ((MainActivity)getActivity()).StoreData("approved", false);
+                                            ((MainActivity)getActivity()).StoreData("studentNumber", student.studentNumber);
+                                            ((MainActivity)getActivity()).StoreData("isUserRegistered", "true");
+                                            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_waitingApprovalFragment);
+                                        }
+                                        else{
+                                            Toast.makeText(getContext(), "Failed to log in: " + response.code(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Student> call, Throwable t) {
+                                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }
+                            else{
+                                Toast.makeText(getContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else{
+                            Toast.makeText(getContext(), "Wrong Username", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Student> call, Throwable t) {
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

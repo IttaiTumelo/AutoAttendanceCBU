@@ -53,7 +53,6 @@ public class RegistrationFragment extends Fragment {
     AttendanceApi attendanceApi =  retrofit.create(AttendanceApi.class);
     ArrayList<Program> programs;
     ArrayAdapter<CharSequence> programsList;
-    SharedPreferences sharedPreferences;
             KeyGenerator keyGenerator;
     KeyStore keyStore;
     SecretKey key;
@@ -111,7 +110,6 @@ public class RegistrationFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         attendanceApi.getProgarms().enqueue(new Callback<List<Program>>() {
             @Override
             public void onResponse(Call<List<Program>> call, Response<List<Program>> response) {
@@ -174,24 +172,15 @@ public class RegistrationFragment extends Fragment {
                     public void onResponse(Call<Student> call, Response<Student> response) {
                         if(response.isSuccessful()) {
                             Toast.makeText(getContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+                            ((MainActivity)getActivity()).StoreData("programId", student.programId);
+                            ((MainActivity)getActivity()).StoreData("studentId", response.body().id);
+//                            ((MainActivity)getActivity()).StoreData("studentNumber", student.StudentNumber);
 
-                            //Store respose on phone memory
-                            MyDatabaseHelper myDB = new MyDatabaseHelper(getContext());
-                            myDB.addStudent(response.body().StudentNumber, response.body().FirstName, response.body().id);
-//                            SharedPreferences.Editor editor = sharedPreferences.edit();
-//                            editor.putBoolean("approved", false);
-//                            editor.putString("studentNumber", response.body().StudentNumber);
-//                            editor.putString("firstName", response.body().FirstName);
-//                            editor.putString("lastName", response.body().LastName);
-//                            editor.putString("email", response.body().Email);
-//                            editor.putInt("year", response.body().Year);
-//                            editor.putInt("programId", response.body().ProgramId);
-//                            editor.putInt("id", response.body().id);
-//                            editor.apply();
                             NavHostFragment.findNavController(RegistrationFragment.this)
                                     .navigate(R.id.action_registrationFragment_to_approvalFragment);
                         } else {
-                            Toast.makeText(getContext(), "Registration failed becayse is" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Registration failed because is" + response.toString(), Toast.LENGTH_SHORT).show();
+                            Log.d("TAG", "onResponse: " + response.toString());
                         }
                     }
 

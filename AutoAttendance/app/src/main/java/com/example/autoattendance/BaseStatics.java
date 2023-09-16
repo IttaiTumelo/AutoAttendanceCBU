@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseStatics {
     public static Retrofit retrofit = new Retrofit
-            .Builder().baseUrl("https://r3hdh79h-7280.uks1.devtunnels.ms/api/")
+            .Builder().baseUrl("https://br21v500-5137.uks1.devtunnels.ms/api/")
             .addConverterFactory(GsonConverterFactory.create()).build();
 //    public  AttendanceApi attendanceApi = retrofit.create(AttendanceApi.class);
 //    public List<Course> courses;

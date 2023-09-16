@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_loginFragment_to_studentInClassFragment2"
             app:destination="@id/studentInClassFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_waitingApprovalFragment"
+            app:destination="@id/waitingApprovalFragment" />
     </fragment>
     <fragment
         android:id="@+id/approvalFragment"
@@ -69,10 +72,27 @@
         android:id="@+id/lectureMenuFragment"
         android:name="com.example.autoattendance.LectureMenuFragment"
         android:label="Lecturer Menu"
-        tools:layout="@layout/fragment_lecture_menu" />
+        tools:layout="@layout/fragment_lecture_menu" >
+        <action
+            android:id="@+id/action_lectureMenuFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_lectureMenuFragment_to_approvalFragment"
+            app:destination="@id/approvalFragment" />
+    </fragment>
     <fragment
         android:id="@+id/studentInClassFragment"
         android:name="com.example.autoattendance.StudentInClassFragment"
         android:label="fragment_student_in_class"
         tools:layout="@layout/fragment_student_in_class" />
+    <fragment
+        android:id="@+id/waitingApprovalFragment"
+        android:name="com.example.autoattendance.WaitingApprovalFragment"
+        android:label="fragment_waiting_approval"
+        tools:layout="@layout/fragment_waiting_approval" />
+    <activity
+        android:id="@+id/pendingApprovalActivity"
+        android:name="com.example.autoattendance.PendingApprovalActivity"
+        android:label="activity_pending_approval"
+        tools:layout="@layout/activity_pending_approval" />
 </navigation>

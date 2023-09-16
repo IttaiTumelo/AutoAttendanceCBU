@@ -21,16 +21,16 @@
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/bluetooth"/>
             <EditText
-                android:id="@+id/username"
+                android:id="@+id/editText_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:hint="Username"
+                android:hint="Username/Id"
                 android:drawableLeft="@drawable/user_icon"
                 android:drawablePadding="10dp"/>
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/editText_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

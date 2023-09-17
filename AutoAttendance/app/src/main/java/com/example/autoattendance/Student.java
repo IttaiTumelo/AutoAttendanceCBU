@@ -17,15 +17,15 @@ public class Student extends BaseEntity {
     public Program program;
     public List<Attendance> attendance;
 
-    public Student(String firstName, String lastName, String email, String studentNumber, String password, int Year,
-                   int programId) {
-        firstName = firstName;
-        lastName = lastName;
-        email = email;
-        password = password;
-        programId = programId;
+    public Student(String firstName, String lastName, String email, String studentNumber,
+                   String password, int Year, int programId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.programId = programId;
         this.year = Year;
-        studentNumber = studentNumber;
+        this.studentNumber = studentNumber;
     }
 
     public String getFirstName() {
@@ -114,5 +114,22 @@ public class Student extends BaseEntity {
 
     public void setAttendance(List<Attendance> attendance) {
         this.attendance = attendance;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", studentNumber='" + studentNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", year=" + year +
+                ", isApproved=" + isApproved +
+                ", email='" + email + '\'' +
+                ", enrolled=" + enrolled +
+                ", programId=" + programId +
+                ", program=" + program +
+                ", attendance=" + attendance +
+                '}';
     }
 }

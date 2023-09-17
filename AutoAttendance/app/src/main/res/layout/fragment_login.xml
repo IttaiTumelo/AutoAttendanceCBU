@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".LoginFragment">
 
 
@@ -16,71 +17,66 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
+                android:layout_height="200dp"
+                android:layout_margin="50dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/bluetooth"/>
-            <EditText
-                android:id="@+id/editText_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:hint="Username/Id"
-                android:drawableLeft="@drawable/user_icon"
-                android:drawablePadding="10dp"/>
 
-            <EditText
-                android:id="@+id/editText_password"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:drawableLeft="@drawable/password_icon"
-                android:drawablePadding="10dp"/>
+                app:startIconDrawable="@drawable/user_icon"
+                android:hint="Student ID">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/password_icon"
+                android:hint="Password">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
             <Button
+                android:layout_marginTop="20dp"
                 android:id="@+id/button_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:text="Sign In"/>
+
             <Button
                 android:id="@+id/button_lecturer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Lecturer"/>
+
             <Button
                 android:id="@+id/button_go_to_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:text="Register"/>
-            <TextView
-                android:id="@+id/policy_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="#808080"
-                android:textStyle = "italic"
-                android:text = "By logging in or signing up, you agree to our Terms of Service and Privacy Policy."
-                android:gravity = "center"
-                android:maxLines = "2"
-                android:minLines = "2"
-                android:singleLine = "false"
-                android:autoLink = "web"
-                android:typeface = "sans"
-                android:textAlignment = "center"
-                android:maxWidth = "300dp"
-                android:minWidth = "300dp"
-                android:maxHeight = "50dp"
-                android:minHeight = "50dp"
-                android:paddingTop = "10dp"
-                android:paddingBottom = "10dp"/>
-                <!--Indefinate loading bar-->
-            <androidx.core.widget.ContentLoadingProgressBar
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:id="@+id/progressBar"
-                android:layout_gravity="center"
-                android:indeterminate="true"/>
+
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

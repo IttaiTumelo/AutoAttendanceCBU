@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.autoattendance.databinding.FragmentRegistrationBinding;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -39,6 +40,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
+import lombok.var;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -159,14 +161,22 @@ public class RegistrationFragment extends Fragment {
                     binding.etPassword2.setError("Passwords do not match");
                     return;
                 }
+                var firstname  =  binding.etFirstName.getText().toString();
+                var lastname  =  binding.etLastName.getText().toString();
+                var password  =  binding.etPassword.getText().toString();
+                var studentNumber  =  binding.etStudentNumber.getText().toString();
+                var year  =  Integer.parseInt(binding.etYear.getText().toString());
+                var program = binding.spProgram.getSelectedItemPosition() +1;
+
                 Student student = new Student(
-                        binding.etFirstName.getText().toString(),
-                        binding.etLastName.getText().toString(), "",
-                        binding.etStudentNumber.getText().toString(),
-                        binding.etPassword.getText().toString(),
-                        Integer.parseInt(binding.etYear.getText().toString()),
-                        binding.spProgram.getSelectedItemPosition() + 1
+                        firstname,
+                        lastname, "",
+                        studentNumber,
+                        password,
+                        year,
+                        program
                 );
+
                 attendanceApi.registerStudent(student).enqueue(new Callback<Student>() {
                     @Override
                     public void onResponse(Call<Student> call, Response<Student> response) {
@@ -177,7 +187,7 @@ public class RegistrationFragment extends Fragment {
 //                            ((MainActivity)getActivity()).StoreData("studentNumber", student.StudentNumber);
 
                             NavHostFragment.findNavController(RegistrationFragment.this)
-                                    .navigate(R.id.action_registrationFragment_to_approvalFragment);
+                                    .navigate(R.id.action_registrationFragment_to_waitingApprovalFragment);
                         } else {
                             Toast.makeText(getContext(), "Registration failed because is" + response.toString(), Toast.LENGTH_SHORT).show();
                             Log.d("TAG", "onResponse: " + response.toString());
@@ -189,43 +199,7 @@ public class RegistrationFragment extends Fragment {
                         Toast.makeText(getContext(), "Registration failed - failed to post", Toast.LENGTH_SHORT).show();
                     }
                 });
-//                try {
-//                    keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
-//                    keyStore = KeyStore.getInstance("AndroidKeyStore");
-//                    keyStore.load(null);
-//
-//                    //Initialize the key generator
-//                    keyGenerator.init(new KeyGenParameterSpec.Builder(
-//                            "MyKey",
-//                            KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-//                            .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-//                            .setUserAuthenticationRequired(true)
-//                            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-//                            .build());
-//                    //Generate the key
-//                    keyGenerator.generateKey();
-//                    key = (SecretKey) keyStore.getKey("MyKey", null);
-//                    cipher = Cipher.getInstance(
-//                            KeyProperties.KEY_ALGORITHM_AES + "/"
-//                                    + KeyProperties.BLOCK_MODE_CBC + "/"
-//                                    + KeyProperties.ENCRYPTION_PADDING_PKCS7);
-//                } catch (NoSuchAlgorithmException | NoSuchProviderException |
-//                         InvalidAlgorithmParameterException | java.security.cert.CertificateException | java.io.IOException |
-//                         NoSuchPaddingException e) {
-//                    e.printStackTrace();
-//                } catch (UnrecoverableKeyException e) {
-//                    throw new RuntimeException(e);
-//                } catch (KeyStoreException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                NavHostFragment.findNavController(RegistrationFragment.this)
-//                        .navigate(R.id.action_registrationFragment_to_approvalFragment);
             }
         });
-
-
     }
-
-
-
 }

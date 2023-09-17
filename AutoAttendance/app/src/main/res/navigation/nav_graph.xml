@@ -11,29 +11,8 @@
         android:label="Registration"
         tools:layout="@layout/fragment_registration" >
         <action
-            android:id="@+id/action_registrationFragment_to_approvalFragment"
-            app:destination="@id/approvalFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.autoattendance.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-
-    </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.autoattendance.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_registrationFragment_to_waitingApprovalFragment"
+            app:destination="@id/waitingApprovalFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -50,9 +29,6 @@
             android:id="@+id/action_loginFragment_to_studentInClassFragment"
             app:destination="@id/studentInClassFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_approvalFragment"
-            app:destination="@id/approvalFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_studentInClassFragment2"
             app:destination="@id/studentInClassFragment" />
         <action
@@ -63,22 +39,18 @@
         android:id="@+id/approvalFragment"
         android:name="com.example.autoattendance.ApprovalFragment"
         android:label="Lecture Approval"
-        tools:layout="@layout/fragment_approval" >
-        <action
-            android:id="@+id/action_approvalFragment_to_studentInClassFragment"
-            app:destination="@id/studentInClassFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_approval" />
     <fragment
         android:id="@+id/lectureMenuFragment"
         android:name="com.example.autoattendance.LectureMenuFragment"
         android:label="Lecturer Menu"
         tools:layout="@layout/fragment_lecture_menu" >
         <action
-            android:id="@+id/action_lectureMenuFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-        <action
             android:id="@+id/action_lectureMenuFragment_to_approvalFragment"
             app:destination="@id/approvalFragment" />
+        <action
+            android:id="@+id/action_lectureMenuFragment_to_classRegisterFragment"
+            app:destination="@id/classRegisterFragment" />
     </fragment>
     <fragment
         android:id="@+id/studentInClassFragment"
@@ -89,10 +61,14 @@
         android:id="@+id/waitingApprovalFragment"
         android:name="com.example.autoattendance.WaitingApprovalFragment"
         android:label="fragment_waiting_approval"
-        tools:layout="@layout/fragment_waiting_approval" />
-    <activity
-        android:id="@+id/pendingApprovalActivity"
-        android:name="com.example.autoattendance.PendingApprovalActivity"
-        android:label="activity_pending_approval"
-        tools:layout="@layout/activity_pending_approval" />
+        tools:layout="@layout/fragment_waiting_approval" >
+        <action
+            android:id="@+id/action_waitingApprovalFragment_to_studentInClassFragment"
+            app:destination="@id/studentInClassFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/classRegisterFragment"
+        android:name="com.example.autoattendance.ClassRegisterFragment"
+        android:label="fragment_class_register"
+        tools:layout="@layout/fragment_class_register" />
 </navigation>

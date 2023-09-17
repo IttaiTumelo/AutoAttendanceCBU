@@ -70,6 +70,7 @@ public class WaitingApprovalFragment extends Fragment {
         // Inflate the layout for this fragment
         AttendanceApi attendanceApi =  retrofit.create(AttendanceApi.class);
         SharedPreferences sharedPreferences = getActivity().getPreferences(getContext().MODE_PRIVATE);
+        ((MainActivity)getActivity()).StoreData("approved", false);
         int studentId = sharedPreferences.getInt("studentId", -1);
         if(studentId != -1) {
 

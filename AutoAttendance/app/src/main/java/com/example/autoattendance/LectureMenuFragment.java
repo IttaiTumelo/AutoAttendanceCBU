@@ -126,6 +126,9 @@ public class LectureMenuFragment extends Fragment {
         binding.buttonStudentApprovals.setOnClickListener(v -> {
             NavHostFragment.findNavController(LectureMenuFragment.this).navigate(R.id.action_lectureMenuFragment_to_approvalFragment);
         });
+        binding.buttonCurrentStudents.setOnClickListener(v -> {
+            NavHostFragment.findNavController(LectureMenuFragment.this).navigate(R.id.action_lectureMenuFragment_to_classRegisterFragment);
+        });
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         binding.materialSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {

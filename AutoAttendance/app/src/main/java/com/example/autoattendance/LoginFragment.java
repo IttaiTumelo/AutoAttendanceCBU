@@ -100,18 +100,14 @@ public class LoginFragment extends Fragment {
         executor = ContextCompat.getMainExecutor(getContext());
         //reading from shared myDb
 
-
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         boolean approved = sharedPref.getBoolean("approved", false);
         int studentId = sharedPref.getInt("studentId", -1);
         int programId = sharedPref.getInt("programId", 0);
 
-
-
-
         if(!approved && studentId != -1 && programId != 0) {
             //Go to Approval Activity
-            Toast.makeText(getContext(), "re-routing you", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "attempting to re-route you", Toast.LENGTH_SHORT).show();
             attendanceApi.getStudentById(studentId).enqueue(new Callback<Student>() {
             @Override
             public void onResponse(Call<Student> call, Response<Student> response) {
@@ -120,6 +116,17 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getContext(), "approved", Toast.LENGTH_SHORT).show();
                     ((MainActivity)getActivity()).StoreData("approved", true);
                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_studentInClassFragment2);
+
+                    //Todo : Saving biometric information
+                    Toast.makeText(getContext(), "Saving biometric info", Toast.LENGTH_SHORT).show();
+
+
+                    if(((MainActivity)getActivity()).generateSecretKey()) {
+                        Toast.makeText(getContext(), "Key generator created", Toast.LENGTH_SHORT).show();
+                        //Navigate to the
+                        return;
+                    }
+
                 }
                 else {
                     Toast.makeText(getContext(), "not approved", Toast.LENGTH_SHORT).show();
@@ -133,55 +140,71 @@ public class LoginFragment extends Fragment {
             }
         });
         }
+        else if(approved){
+            if(!((MainActivity)getActivity()).checkKeyIntegrity()){
+                Toast.makeText(getContext(), "Your prints may have change, you are required to re-approval with your lecture ", Toast.LENGTH_SHORT).show();
+                attendanceApi.rejectStudent(studentId).enqueue(new Callback<Student>() {
+                    @Override
+                    public void onResponse(Call<Student> call, Response<Student> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Student> call, Throwable t) {
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return;
+            }
+            else {
+
+                Toast.makeText(getContext(), "Your prints are still the same", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Starting Auth", Toast.LENGTH_SHORT).show();
+                executor = ContextCompat.getMainExecutor(getContext());
+                biometricPrompt = new BiometricPrompt(getActivity(),
+                        executor, new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationError(int errorCode,
+                                                      @NonNull CharSequence errString) {
+                        super.onAuthenticationError(errorCode, errString);
+                        Toast.makeText(getContext(),
+                                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void onAuthenticationSucceeded(
+                            @NonNull BiometricPrompt.AuthenticationResult result) {
+                        super.onAuthenticationSucceeded(result);
+                        Toast.makeText(getContext(),
+                                "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_studentInClassFragment2);
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        super.onAuthenticationFailed();
+                        Toast.makeText(getContext(), "Authentication failed",
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+
+                promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                        .setTitle("Biometric login need to register class attendance")
+                        .setSubtitle("place your registered finger")
+                        .setNegativeButtonText("Cancel")
+                        .build();
+                biometricPrompt.authenticate(promptInfo);
+            }
+
+        }
         else{
-            Toast.makeText(getContext(), "not re-routing you", Toast.LENGTH_SHORT).show();
+
+            //TODO : Should remove biometric information if any saved in the device
+
         }
 
-
-//        Toast.makeText(getContext(), "xid student  " + studentId, Toast.LENGTH_SHORT).show();
-
-
-
-
-        biometricPrompt = new BiometricPrompt(getActivity(), executor, new BiometricPrompt.AuthenticationCallback() {
-            @Override
-            public void onAuthenticationError(int errorCode,
-                                              @NonNull CharSequence errString) {
-                super.onAuthenticationError(errorCode, errString);
-                authenticationMessage = "Authentication error: " + errString;
-                Toast.makeText(getContext(), authenticationMessage, Toast.LENGTH_SHORT)
-                        .show();
-                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registrationFragment);
-                authenticationCompleted = true;
-            }
-
-            @Override
-            public void onAuthenticationSucceeded(
-                    @NonNull BiometricPrompt.AuthenticationResult result) {
-                super.onAuthenticationSucceeded(result);
-                authenticationMessage = "Authentication succeeded!";
-                Toast.makeText(getContext(), authenticationMessage, Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_approvalFragment);
-                authenticationCompleted = true;
-                authenticationPassed = true;}
-
-            @Override
-            public void onAuthenticationFailed() {
-                authenticationMessage = "Authentication failed";
-                super.onAuthenticationFailed();
-                Toast.makeText(getContext(), authenticationMessage,
-                                Toast.LENGTH_SHORT)
-                        .show();
-                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registrationFragment);
-                authenticationCompleted = true;
-            }
-        });
-
-        promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Biometric login for my app")
-                .setSubtitle("Log in using your biometric credential")
-                .setNegativeButtonText("Use account password")
-                .build();
 
 
         binding.buttonGoToRegister.setOnClickListener(new View.OnClickListener() {

@@ -122,58 +122,6 @@ public class ApprovalFragment extends Fragment {
         });
 
 
-//        attendanceApi.getCourses().enqueue(new Callback<List<Course>>() {
-//            @Override
-//            public void onResponse(Call<List<Course>> call, Response<List<Course>> response) {
-////                courseList = new ArrayList<>(response.body());
-////                Log.d("TAG", "onResponse: " + courseList.size());
-////                ApprovalAdapter approvalAdapter = new ApprovalAdapter(getContext(), courseList);
-////                binding.recyclerViewLecturerCourses.setAdapter(approvalAdapter);
-////                approvalAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Course>> call, Throwable t) {
-////                throw new RuntimeException("Exception: " + t.getMessage());
-//            }
-//        });
 
-//        binding.btnRegister.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //sent request to register this user to the school
-//                if(approved) {
-//                    Toast.makeText(getContext(), "You are already approved", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                if(programId ==0 && studentNumber.equals("")){
-//                    Toast.makeText(getContext(), "Please enter your student number and program id", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                attendanceApi.registerStudentToProgram(studentNumber, programId).enqueue(new Callback() {
-//                    @Override
-//                    public void onResponse(Call call, Response response) {
-//                        Log.d("TAG", "onResponse: " + response.body().toString());
-//                        if(response.isSuccessful()){
-//                            Toast.makeText(getContext(), "You are approved", Toast.LENGTH_SHORT).show();
-//                            SharedPreferences.Editor editor = sharedPref.edit();
-//                            editor.putBoolean("approved", true);
-//                            editor.apply();}
-//                        else{
-//                            Toast.makeText(getContext(), "You are not approved", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call call, Throwable t) {
-//                        Toast.makeText(getContext(), "You are not approved, because an error occured", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//
-//
-//            }
-//        });
     }
 }

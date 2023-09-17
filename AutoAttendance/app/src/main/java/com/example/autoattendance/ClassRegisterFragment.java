@@ -1,12 +1,29 @@
 package com.example.autoattendance;
 
+import static com.example.autoattendance.BaseStatics.retrofit;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.example.autoattendance.databinding.FragmentClassRegisterBinding;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +40,9 @@ public class ClassRegisterFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    AttendanceApi attendanceApi =  retrofit.create(AttendanceApi.class);
+
+    FragmentClassRegisterBinding binding;
 
     public ClassRegisterFragment() {
         // Required empty public constructor
@@ -58,7 +78,62 @@ public class ClassRegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_class_register, container, false);
+        binding = FragmentClassRegisterBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.btnAddClassRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.studentRvClassRegister.setLayoutManager(new LinearLayoutManager(getContext()));
+                binding.studentRvClassRegister.setHasFixedSize(true);
+
+
+
+                attendanceApi.createAttendance(new Attendance(null, null, null, 1  )).enqueue(new Callback<Attendance>() {
+                    @Override
+                    public void onResponse(Call<Attendance> call, Response<Attendance> response) {
+                        if (response.isSuccessful()) {
+                            Attendance attendance = response.body();
+
+                            attendanceApi.completeCourse().enqueue(new Callback<Course>() {
+                                @Override
+                                public void onResponse(Call<Course> call, Response<Course> response) {
+                                    if(response.isSuccessful()) {
+                                        Course course = response.body();
+                                        Toast.makeText(getContext(), "Course Completed", Toast.LENGTH_SHORT).show();
+
+                                        Log.d("TAG", "onResponse: " + course.Program.Students.size());
+                                        ClassRegistrationAdapter classRegistrationAdapter = new ClassRegistrationAdapter(getContext(), course, attendance);
+                                        binding.studentRvClassRegister.setAdapter(classRegistrationAdapter);
+                                        classRegistrationAdapter.notifyDataSetChanged();
+                                    }
+                                    else {
+                                        Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Course> call, Throwable t) {
+
+                                }
+                            });
+
+                        } else {
+                            Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Attendance> call, Throwable t) {
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 }

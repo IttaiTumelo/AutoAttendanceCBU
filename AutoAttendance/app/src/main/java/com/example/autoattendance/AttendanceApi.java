@@ -37,6 +37,11 @@ public interface AttendanceApi {
     @GET("student/reject/{id}")
     Call<Student> rejectStudent(@Path("id") int id);
 
+    @GET("course/complete/6")
+    Call<Course> completeCourse();
+
+    @POST("Attendance")
+    Call<Attendance> createAttendance(@Body Attendance attendance);
 //getStudentBySIN
 //    @GET("")
 }

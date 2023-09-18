@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:text="Add Class Register today"
         android:id="@+id/btn_add_class_register"
+        android:enabled="false"
         />
 
     <FrameLayout

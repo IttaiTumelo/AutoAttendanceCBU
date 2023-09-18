@@ -1,4 +1,6 @@
-package com.example.autoattendance;
+package com.example.autoattendance.Entities;
+
+import com.example.autoattendance.BaseEntity;
 
 import java.util.List;
 

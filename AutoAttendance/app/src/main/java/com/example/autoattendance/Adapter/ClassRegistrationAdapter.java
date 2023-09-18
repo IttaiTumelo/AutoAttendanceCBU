@@ -1,6 +1,6 @@
-package com.example.autoattendance;
+package com.example.autoattendance.Adapter;
 
-import static com.example.autoattendance.BaseStatics.retrofit;
+import static com.example.autoattendance.API.BaseStatics.retrofit;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,13 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.annotations.SerializedName;
+import com.example.autoattendance.API.AttendanceApi;
+import com.example.autoattendance.Entities.Attendance;
+import com.example.autoattendance.Entities.Course;
+import com.example.autoattendance.Entities.Student;
+import com.example.autoattendance.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.*;
-import lombok.var;
 
 public class ClassRegistrationAdapter extends  RecyclerView.Adapter<ClassRegistrationAdapter.ClassRegistrationViewHolder> {
 
@@ -33,9 +34,9 @@ public class ClassRegistrationAdapter extends  RecyclerView.Adapter<ClassRegistr
         this.context = context;
         this.course = course;
 
-        this.RegisteredStudents = course.Program.Students;
-        this.StudentsInClass = attendance.StudentsInClass;
-
+        this.RegisteredStudents = course.program.students;
+        this.StudentsInClass = attendance.studentsInClass;
+        this.attendance = attendance;
     }
     @NonNull
     @Override
@@ -48,11 +49,12 @@ public class ClassRegistrationAdapter extends  RecyclerView.Adapter<ClassRegistr
     public void onBindViewHolder(@NonNull ClassRegistrationAdapter.ClassRegistrationViewHolder holder, int position) {
         Student student = RegisteredStudents.get(position);
         holder.studentName.setText(student.getName());
-        if (StudentsInClass.contains(student)) {
-            holder.studentPresence.setText("Present");
-        } else {
-            holder.studentPresence.setText("Absent");
-        }
+        //if attendance.studentsInClass list contains a student with student.StudentId then set the text to ✔ else ❌
+        holder.studentPresence.setText(
+                attendance.studentsInClass.stream()
+                        .anyMatch(s -> s.studentNumber.equals(student.studentNumber)) ? "✔" : " X"
+        );
+
     }
 
     @Override

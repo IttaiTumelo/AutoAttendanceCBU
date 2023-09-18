@@ -1,12 +1,13 @@
 package com.example.autoattendance;
 
-import static com.example.autoattendance.BaseStatics.retrofit;
+import static com.example.autoattendance.API.BaseStatics.retrofit;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
@@ -15,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.autoattendance.API.AttendanceApi;
+import com.example.autoattendance.Adapter.ClassRegistrationAdapter;
+import com.example.autoattendance.Entities.Attendance;
+import com.example.autoattendance.Entities.Course;
 import com.example.autoattendance.databinding.FragmentClassRegisterBinding;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,16 +88,81 @@ public class ClassRegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        attendanceApi.getCurrentAttendanceId().enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    int attendanceId = response.body();
+                    if(attendanceId < 1 ) {
+                        binding.btnAddClassRegister.setText("Start Class");
+                        binding.btnAddClassRegister.setEnabled(true);
+                        return;
+                    }
+                    attendanceApi.getAttendanceById(attendanceId).enqueue(new Callback<Attendance>() {
+                        @Override
+                        public void onResponse(Call<Attendance> call, Response<Attendance> response) {
+                            if(response.isSuccessful()) {
+                                Attendance attendance = response.body();
+                                if(attendance.studentsInClass == null) {
+                                    attendance.studentsInClass = new ArrayList<>();
+                                    Toast.makeText(getContext(), "No students in class yet", Toast.LENGTH_SHORT).show();
+                                }
+                                attendanceApi.completeCourse().enqueue(new Callback<Course>() {
+                                    @Override
+                                    public void onResponse(Call<Course> call, Response<Course> response) {
+                                        if(response.isSuccessful()) {
+                                            Course course = response.body();
+                                            Toast.makeText(getContext(), "Course Obtained", Toast.LENGTH_SHORT).show();
 
+                                            Log.d("TAG", "onResponse: " + course.program.students.size());
+                                            ClassRegistrationAdapter classRegistrationAdapter = new ClassRegistrationAdapter(getContext(), course, attendance);
+                                            binding.studentRvClassRegister.setAdapter(classRegistrationAdapter);
+                                            classRegistrationAdapter.notifyDataSetChanged();
+                                        }
+                                        else {
+                                            Toast.makeText(getContext(), "Error getting courses, get done but not successful: " + response.code(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    @Override
+                                    public void onFailure(Call<Course> call, Throwable t) {
+                                        Toast.makeText(getContext(), "Error, faild to get error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            else {
+                                Toast.makeText(getContext(), "Error, getting attendance not successful: " + response.message(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Attendance> call, Throwable t) {
+                            Toast.makeText(getContext(), "Server not accessible Error " + t.getCause(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else {
+                    Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        binding.studentRvClassRegister.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.studentRvClassRegister.setHasFixedSize(true);
         binding.btnAddClassRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.studentRvClassRegister.setLayoutManager(new LinearLayoutManager(getContext()));
-                binding.studentRvClassRegister.setHasFixedSize(true);
+
+                binding.btnAddClassRegister.setEnabled(false);
 
 
 
-                attendanceApi.createAttendance(new Attendance(null, null, null, 1  )).enqueue(new Callback<Attendance>() {
+
+
+                attendanceApi.createAttendance(new Attendance( null, null, 1  )).enqueue(new Callback<Attendance>() {
                     @Override
                     public void onResponse(Call<Attendance> call, Response<Attendance> response) {
                         if (response.isSuccessful()) {
@@ -105,12 +173,10 @@ public class ClassRegisterFragment extends Fragment {
                                 public void onResponse(Call<Course> call, Response<Course> response) {
                                     if(response.isSuccessful()) {
                                         Course course = response.body();
-                                        Toast.makeText(getContext(), "Course Completed", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Register Created", Toast.LENGTH_SHORT).show();
+                                        Navigation.findNavController(v).navigate(R.id.action_classRegisterFragment_to_lectureMenuFragment);
 
-                                        Log.d("TAG", "onResponse: " + course.Program.Students.size());
-                                        ClassRegistrationAdapter classRegistrationAdapter = new ClassRegistrationAdapter(getContext(), course, attendance);
-                                        binding.studentRvClassRegister.setAdapter(classRegistrationAdapter);
-                                        classRegistrationAdapter.notifyDataSetChanged();
+
                                     }
                                     else {
                                         Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();

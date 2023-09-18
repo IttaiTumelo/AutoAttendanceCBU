@@ -55,12 +55,12 @@
     <fragment
         android:id="@+id/studentInClassFragment"
         android:name="com.example.autoattendance.StudentInClassFragment"
-        android:label="fragment_student_in_class"
+        android:label="Check in"
         tools:layout="@layout/fragment_student_in_class" />
     <fragment
         android:id="@+id/waitingApprovalFragment"
         android:name="com.example.autoattendance.WaitingApprovalFragment"
-        android:label="fragment_waiting_approval"
+        android:label="Waiting for Approval"
         tools:layout="@layout/fragment_waiting_approval" >
         <action
             android:id="@+id/action_waitingApprovalFragment_to_studentInClassFragment"
@@ -69,6 +69,10 @@
     <fragment
         android:id="@+id/classRegisterFragment"
         android:name="com.example.autoattendance.ClassRegisterFragment"
-        android:label="fragment_class_register"
-        tools:layout="@layout/fragment_class_register" />
+        android:label="Class Register"
+        tools:layout="@layout/fragment_class_register" >
+        <action
+            android:id="@+id/action_classRegisterFragment_to_lectureMenuFragment"
+            app:destination="@id/lectureMenuFragment" />
+    </fragment>
 </navigation>

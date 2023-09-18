@@ -2,12 +2,11 @@ package com.example.autoattendance;
 
 
 import static com.example.autoattendance.BaseBluetoothThread.*;
+import static com.example.autoattendance.API.BaseStatics.retrofit;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,21 +17,29 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.autoattendance.API.AttendanceApi;
+import com.example.autoattendance.Adapter.ClassRegistrationAdapter;
+import com.example.autoattendance.Entities.Attendance;
+import com.example.autoattendance.Entities.Course;
 import com.example.autoattendance.databinding.FragmentLectureMenuBinding;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.UUID;
+import java.util.ArrayList;
+
+import lombok.var;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +47,9 @@ import java.util.UUID;
  * create an instance of this fragment.
  */
 public class LectureMenuFragment extends Fragment {
+
+    AttendanceApi attendanceApi =  retrofit.create(AttendanceApi.class);
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -99,6 +109,121 @@ public class LectureMenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ///////////////////////////////////////////////////////////////////////////////////from the in class
+
+//        attendanceApi.getCurrentAttendanceId().enqueue(new retrofit2.Callback<Integer>() {
+//            @Override
+//            public void onResponse(Call<Integer> call, Response<Integer> response) {
+//                if(response.isSuccessful()) {
+//                    int attendanceId = response.body();
+//                    if(attendanceId < 1 ) {
+//                        binding.btnAddClassRegister.setText("Start Class");
+//                        binding.btnAddClassRegister.setEnabled(true);
+//                        return;
+//                    }
+//                    attendanceApi.getAttendanceById(attendanceId).enqueue(new retrofit2.Callback<Attendance>() {
+//                        @Override
+//                        public void onResponse(Call<Attendance> call, Response<Attendance> response) {
+//                            if(response.isSuccessful()) {
+//                                Attendance attendance = response.body();
+//                                if(attendance.StudentsInClass == null) attendance.StudentsInClass = new ArrayList<>();
+//                                attendanceApi.completeCourse().enqueue(new retrofit2.Callback<Course>() {
+//                                    @Override
+//                                    public void onResponse(Call<Course> call, Response<Course> response) {
+//                                        if(response.isSuccessful()) {
+//                                            Course course = response.body();
+//                                            Toast.makeText(getContext(), "Course Obtained", Toast.LENGTH_SHORT).show();
+//
+//                                            Log.d("TAG", "onResponse: " + course.program.students.size());
+//                                            ClassRegistrationAdapter classRegistrationAdapter = new ClassRegistrationAdapter(getContext(), course, attendance);
+//                                            binding.studentRvClassRegister.setAdapter(classRegistrationAdapter);
+//                                            classRegistrationAdapter.notifyDataSetChanged();
+//                                        }
+//                                        else {
+//                                            Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    }
+//                                    @Override
+//                                    public void onFailure(Call<Course> call, Throwable t) {
+//                                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                            }
+//                            else {
+//                                Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<Attendance> call, Throwable t) {
+//                            Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
+//                else {
+//                    Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Integer> call, Throwable t) {
+//                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        binding.studentRvClassRegister.setLayoutManager(new LinearLayoutManager(getContext()));
+//        binding.studentRvClassRegister.setHasFixedSize(true);
+//        binding.btnAddClassRegister.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//
+//
+//
+//                attendanceApi.createAttendance(new Attendance(null, null, null, 1  )).enqueue(new retrofit2.Callback<Attendance>() {
+//                    @Override
+//                    public void onResponse(Call<Attendance> call, Response<Attendance> response) {
+//                        if (response.isSuccessful()) {
+//                            Attendance attendance = response.body();
+//
+//                            attendanceApi.completeCourse().enqueue(new retrofit2.Callback<Course>() {
+//                                @Override
+//                                public void onResponse(Call<Course> call, Response<Course> response) {
+//                                    if(response.isSuccessful()) {
+//                                        Course course = response.body();
+//                                        Toast.makeText(getContext(), "Register Created", Toast.LENGTH_SHORT).show();
+//
+//
+//                                    }
+//                                    else {
+//                                        Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<Course> call, Throwable t) {
+//
+//                                }
+//                            });
+//
+//                        } else {
+//                            Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Attendance> call, Throwable t) {
+//                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//        });
+
+        ///////////////////////////////////////////////////////////////////////////////////from the in class
+
+
+
+
         // Assume thisActivity is the current activity
         int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.WRITE_CALENDAR);
@@ -123,6 +248,28 @@ public class LectureMenuFragment extends Fragment {
             }
         }
 
+        binding.btnSendRegister.setOnClickListener(v -> {
+            binding.btnSendRegister.setEnabled(false);
+            String email = binding.etEmail.getText().toString();
+            if(email.isEmpty()) {
+                Toast.makeText(getContext(), "Please enter an email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            attendanceApi.sendMail(email).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if(response.isSuccessful())
+                        Toast.makeText(getContext(), "Email Sent", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
         binding.buttonStudentApprovals.setOnClickListener(v -> {
             NavHostFragment.findNavController(LectureMenuFragment.this).navigate(R.id.action_lectureMenuFragment_to_approvalFragment);
         });
@@ -151,6 +298,11 @@ public class LectureMenuFragment extends Fragment {
             }
         });
 
+
+
+
+
+
     }
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -174,6 +326,19 @@ public class LectureMenuFragment extends Fragment {
                     byte[] readBuff= (byte[]) msg.obj;
                     String tempMsg=new String(readBuff,0,msg.arg1);
                     binding.textViewBluetoothMsg.setText(tempMsg);
+                    int studentId = Integer.parseInt(tempMsg);
+                    attendanceApi.markAttendance(studentId).enqueue(new Callback<Attendance>() {
+                        @Override
+                        public void onResponse(Call<Attendance> call, Response<Attendance> response) {
+                            Toast.makeText(getContext(), "Attendance Marked", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Attendance> call, Throwable t) {
+                            Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                     break;
             }
             return true;

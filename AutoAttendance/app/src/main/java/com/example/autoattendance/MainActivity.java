@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
     public void StoreData(String key, boolean value) {
         SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -132,6 +131,15 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(key, value);
         editor.apply();
+    }
+
+    public int RetrieveDataInt(int number, String key) {
+        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(key, number);
+    }
+    public String RetrieveDataString(String key) {
+        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+        return sharedPreferences.getString(key, "");
     }
 
     public boolean createkeyGenerator(){

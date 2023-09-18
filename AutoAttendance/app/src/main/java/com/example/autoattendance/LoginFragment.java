@@ -1,9 +1,8 @@
 package com.example.autoattendance;
 
-import static com.example.autoattendance.BaseStatics.retrofit;
+import static com.example.autoattendance.API.BaseStatics.retrofit;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -13,16 +12,16 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.autoattendance.API.AttendanceApi;
+import com.example.autoattendance.Entities.Student;
 import com.example.autoattendance.databinding.FragmentLoginBinding;
 
-import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import retrofit2.Call;

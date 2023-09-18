@@ -1,8 +1,8 @@
-package com.example.autoattendance;
+package com.example.autoattendance.Entities;
 
+import com.example.autoattendance.BaseEntity;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -18,15 +18,15 @@ public class Lecture extends BaseEntity {
     @SerializedName("body")
     private String text;
 
-    public List<LectureTime> LectureTimetable;
-    public String Instructor;
-    public Course Course;
-    public List<Attendance> Attendance;
+    public List<LectureTime> lectureTimetable;
+    public String instructor;
+    public Course course;
+    public List<Attendance> attendance;
 
     public Lecture(List<LectureTime> lectureTimetable, String instructor, Course course, List<Attendance> attendance) {
-        LectureTimetable = lectureTimetable;
-        Instructor = instructor;
-        Course = course;
-        Attendance = attendance;
+        this.lectureTimetable = lectureTimetable;
+        this.instructor = instructor;
+        this.course = course;
+        this.attendance = attendance;
     }
 }

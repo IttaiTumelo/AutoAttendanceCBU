@@ -1,20 +1,13 @@
 package com.example.autoattendance;
 
-import static com.example.autoattendance.BaseStatics.retrofit;
+import static com.example.autoattendance.API.BaseStatics.retrofit;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.preference.PreferenceManager;
-import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyPermanentlyInvalidatedException;
-import android.security.keystore.KeyProperties;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,22 +15,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.example.autoattendance.API.AttendanceApi;
+import com.example.autoattendance.Entities.Program;
+import com.example.autoattendance.Entities.Student;
 import com.example.autoattendance.databinding.FragmentRegistrationBinding;
-import com.google.android.material.textfield.TextInputEditText;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 import lombok.var;

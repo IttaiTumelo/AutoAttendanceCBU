@@ -1,15 +1,17 @@
 package com.example.autoattendance;
 
-import static com.example.autoattendance.BaseStatics.retrofit;
+import static com.example.autoattendance.API.BaseStatics.retrofit;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.autoattendance.API.AttendanceApi;
+import com.example.autoattendance.Entities.Student;
 
 import retrofit2.Call;
 import retrofit2.Callback;

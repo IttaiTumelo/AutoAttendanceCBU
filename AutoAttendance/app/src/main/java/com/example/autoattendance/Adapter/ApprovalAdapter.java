@@ -1,6 +1,6 @@
-package com.example.autoattendance;
+package com.example.autoattendance.Adapter;
 
-import static com.example.autoattendance.BaseStatics.retrofit;
+import static com.example.autoattendance.API.BaseStatics.retrofit;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,8 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.autoattendance.API.AttendanceApi;
+import com.example.autoattendance.Entities.Student;
+import com.example.autoattendance.R;
 
 import java.util.ArrayList;
 
@@ -74,8 +77,6 @@ public class ApprovalAdapter extends  RecyclerView.Adapter<ApprovalAdapter.Appro
                     @Override
                     public void onFailure(Call<Student> call, Throwable t) {
                         Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-
-
                     }
                 });
             }

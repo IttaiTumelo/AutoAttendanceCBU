@@ -1,5 +1,6 @@
-package com.example.autoattendance;
+package com.example.autoattendance.Entities;
 
+import com.example.autoattendance.BaseEntity;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -17,16 +18,16 @@ public class Course extends BaseEntity {
     @SerializedName("body")
     private String text;
 
-    public int MinYear;
-    public List<Lecture> Lectures;
-    public int ProgramId;
-    public Program Program;
+    public int minYear;
+    public List<Lecture> lectures;
+    public int programId;
+    public Program program;
 
-    public Course(int minYear, List<Lecture> lectures, int programId, com.example.autoattendance.Program program) {
-        MinYear = minYear;
-        Lectures = lectures;
-        ProgramId = programId;
-        Program = program;
+    public Course(int minYear, List<Lecture> lectures, int programId, Program program) {
+        this.minYear = minYear;
+        this.lectures = lectures;
+        this.programId = programId;
+        this.program = program;
     }
 
     public String getText() {
@@ -38,34 +39,34 @@ public class Course extends BaseEntity {
     }
 
     public int getMinYear() {
-        return MinYear;
+        return minYear;
     }
 
     public void setMinYear(int minYear) {
-        MinYear = minYear;
+        this.minYear = minYear;
     }
 
     public List<Lecture> getLectures() {
-        return Lectures;
+        return this.lectures;
     }
 
     public void setLectures(List<Lecture> lectures) {
-        Lectures = lectures;
+        this.lectures = lectures;
     }
 
     public int getProgramId() {
-        return ProgramId;
+        return this.programId;
     }
 
     public void setProgramId(int programId) {
-        ProgramId = programId;
+        this.programId = programId;
     }
 
-    public com.example.autoattendance.Program getProgram() {
-        return Program;
+    public Program getProgram() {
+        return this.program;
     }
 
-    public void setProgram(com.example.autoattendance.Program program) {
-        Program = program;
+    public void setProgram(Program program) {
+        this.program = program;
     }
 }

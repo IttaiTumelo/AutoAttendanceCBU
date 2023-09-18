@@ -1,5 +1,6 @@
-package com.example.autoattendance;
+package com.example.autoattendance.Entities;
 
+import com.example.autoattendance.BaseEntity;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -17,13 +18,13 @@ public class Program extends BaseEntity {
 
     @SerializedName("body")
     private String text;
-    public List<Course> Courses;
-    public List<Student> Students;
-    public int SchoolId;
+    public List<Course> courses;
+    public List<Student> students;
+    public int schoolId;
 
     public Program(List<Course> courses, List<Student> students, int schoolId) {
-        Courses = courses;
-        Students = students;
-        SchoolId = schoolId;
+        this.courses = courses;
+        this.students = students;
+        this.schoolId = schoolId;
     }
 }

@@ -1,8 +1,7 @@
 package com.example.autoattendance;
 
-import static com.example.autoattendance.BaseStatics.*;
+import static com.example.autoattendance.API.BaseStatics.*;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -11,25 +10,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.preference.PreferenceManager;
-import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.autoattendance.API.AttendanceApi;
+import com.example.autoattendance.Adapter.ApprovalAdapter;
+import com.example.autoattendance.Entities.Course;
+import com.example.autoattendance.Entities.Student;
 import com.example.autoattendance.databinding.FragmentApprovalBinding;
-import com.example.autoattendance.databinding.FragmentLoginBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -110,6 +109,7 @@ public class ApprovalFragment extends Fragment {
             public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
                 studentList = new ArrayList<>(response.body());
                 Log.d("TAG", "onResponse: " + studentList.size());
+                studentList = studentList.stream().filter(student -> student.isApproved == false).collect(Collectors.toCollection(ArrayList::new));
                 ApprovalAdapter approvalAdapter = new ApprovalAdapter(getContext(), studentList);
                 binding.recyclerViewLecturerCourses.setAdapter(approvalAdapter);
                 approvalAdapter.notifyDataSetChanged();

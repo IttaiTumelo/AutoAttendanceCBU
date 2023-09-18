@@ -1,4 +1,9 @@
-package com.example.autoattendance;
+package com.example.autoattendance.API;
+
+import com.example.autoattendance.Entities.Attendance;
+import com.example.autoattendance.Entities.Course;
+import com.example.autoattendance.Entities.Program;
+import com.example.autoattendance.Entities.Student;
 
 import java.util.List;
 
@@ -6,7 +11,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface AttendanceApi {
@@ -42,6 +46,18 @@ public interface AttendanceApi {
 
     @POST("Attendance")
     Call<Attendance> createAttendance(@Body Attendance attendance);
+
+    @GET("Attendance/current")
+    Call<Integer> getCurrentAttendanceId();
+
+    @GET("Attendance/{id}")
+    Call<Attendance> getAttendanceById(@Path("id") int id);
+
+    @GET("Attendance/markPresent/{id}")
+    Call<Attendance> markAttendance(@Path("id") int id);
+
+    @GET("Attendance/sendMail/{address}")
+    Call<String> sendMail(@Path("address") String address);
 //getStudentBySIN
 //    @GET("")
 }

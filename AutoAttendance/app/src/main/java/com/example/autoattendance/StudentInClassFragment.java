@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.autoattendance.Entities.DataType;
 import com.example.autoattendance.databinding.FragmentStudentInClassBinding;
 
 import java.io.IOException;
@@ -117,43 +118,25 @@ public class StudentInClassFragment extends Fragment {
         binding.buttonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.textViewStatus.setText("Checking your bio-metrics...");
+                binding.textViewStatus.setText("Attempting to connect...");
 
-                //        Create a key Generator
-                try{
-                    KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
-                    keyStore.load(null);
-                    SecretKey key = (SecretKey) keyStore.getKey("MyKey", null);
-                    Cipher cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/" +
-                            KeyProperties.BLOCK_MODE_CBC + "/" + KeyProperties.ENCRYPTION_PADDING_PKCS7);
-                    cipher.init(Cipher.ENCRYPT_MODE, key);
-//        } catch (KeyPermanentlyInvalidatedException e){
-//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                } catch (InvalidKeyException | KeyStoreException | UnrecoverableKeyException |
-                         NoSuchPaddingException | CertificateException | IOException |
-                         NoSuchAlgorithmException e){
-//                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    binding.textViewStatus.setText("You have changed your bio-metrics. Please re-register with the school admin. Your issue has been reported to your school admin.");
-                    binding.buttonRegister.setVisibility(View.GONE);
-                    binding.buttonConnect.setVisibility(View.GONE);
-                    return;
-                }
 
 
                 bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
                 BluetoothDevice bluetoothDevice = null;
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
+                    // ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
+                    // public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    // int[] grantResults)
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
                 for (BluetoothDevice device : bluetoothAdapter.getBondedDevices()) {
-                    if (device.getName().charAt(0) == 'L') {
+                    Toast.makeText(getContext(), "Device: " + device.getName(), Toast.LENGTH_SHORT).show();
+                    if (device.getName().charAt(0) == 'H') {
                         binding.textViewStatus.setText(device.getName());
                         bluetoothDevice = device;
                         break;
@@ -218,8 +201,7 @@ public class StudentInClassFragment extends Fragment {
                                               @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
                 authenticationMessage = "Authentication error: " + errString;
-                Toast.makeText(getContext(), authenticationMessage, Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(getContext(), authenticationMessage, Toast.LENGTH_SHORT).show();
 //                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registrationFragment);
                 authenticationCompleted = true;
             }
@@ -230,7 +212,12 @@ public class StudentInClassFragment extends Fragment {
                 super.onAuthenticationSucceeded(result);
                 authenticationMessage = "Authentication succeeded!";
                 Toast.makeText(getContext(), authenticationMessage, Toast.LENGTH_SHORT).show();
-                String string= "Test message";
+                int studentId = ((MainActivity)getActivity()).RetrieveDataInt(0, "studentId");
+                if(studentId==0){
+                    Toast.makeText(getContext(), "StudentId not found", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String string= ""+studentId;
                 clientClass.sendReceive.write(string.getBytes());
                 authenticationCompleted = true;
                 authenticationPassed = true;}
@@ -239,9 +226,7 @@ public class StudentInClassFragment extends Fragment {
             public void onAuthenticationFailed() {
                 authenticationMessage = "Authentication failed";
                 super.onAuthenticationFailed();
-                Toast.makeText(getContext(), authenticationMessage,
-                                Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(getContext(), authenticationMessage, Toast.LENGTH_SHORT).show();
 //                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registrationFragment);
                 authenticationCompleted = true;
             }

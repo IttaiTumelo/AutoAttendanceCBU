@@ -46,15 +46,7 @@ public class ApprovalAdapter extends  RecyclerView.Adapter<ApprovalAdapter.Appro
     public void onBindViewHolder(@NonNull ApprovalViewHolder holder, int position) {
         Student student = approvalArrayList.get(position);
         holder.courseName.setText(student.getName());
-//        holder.courseCode.setText(course.);
-//        holder.courseCode.setText(course.getCourseCode());
-//        holder.courseInstructor.setText(course.getCourseInstructor());
-//        holder.approveButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Navigation.findNavController(v).navigate(R.id.action_approvalFragment_to_studentInClassFragment);
-//            }
-//        });
+
         holder.approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

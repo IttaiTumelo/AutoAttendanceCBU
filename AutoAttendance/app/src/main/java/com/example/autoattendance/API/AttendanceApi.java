@@ -3,8 +3,10 @@ package com.example.autoattendance.API;
 import com.example.autoattendance.Entities.Attendance;
 import com.example.autoattendance.Entities.Course;
 import com.example.autoattendance.Entities.Program;
+import com.example.autoattendance.Entities.Schedule;
 import com.example.autoattendance.Entities.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -58,6 +60,8 @@ public interface AttendanceApi {
 
     @GET("Attendance/sendMail/{address}")
     Call<String> sendMail(@Path("address") String address);
+    @GET("Schedule/program/{programId}")
+    Call<ArrayList<Schedule>> getSchedule(@Path("programId") int programId );
 //getStudentBySIN
 //    @GET("")
 }

@@ -4,21 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ApprovalFragment">
+    tools:context=".TableFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recycler_view_lecturer_courses"
-        tools:listitem="@layout/course_lecturer_item_rf">
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_view_lecturer_x"
+        tools:listitem="@layout/table_item_rl">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-<!--    <Button-->
-<!--        android:id="@+id/btn_register"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Register"/>-->
 
 </LinearLayout>

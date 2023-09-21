@@ -112,5 +112,17 @@
             android:text=""
             android:textAlignment="center"
             android:id="@+id/text_view_bluetooth_msg"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recycler_view_table"
+                tools:listitem="@layout/table_item_rl">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

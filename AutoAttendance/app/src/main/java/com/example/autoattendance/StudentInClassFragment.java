@@ -1,5 +1,6 @@
 package com.example.autoattendance;
 
+import static com.example.autoattendance.API.BaseStatics.retrofit;
 import static com.example.autoattendance.BaseBluetoothThread.*;
 
 import android.Manifest;
@@ -25,7 +26,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.autoattendance.API.AttendanceApi;
+import com.example.autoattendance.Adapter.TableAdapter;
 import com.example.autoattendance.Entities.DataType;
+import com.example.autoattendance.Entities.Schedule;
 import com.example.autoattendance.databinding.FragmentStudentInClassBinding;
 
 import java.io.IOException;
@@ -35,11 +39,17 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +58,7 @@ import javax.crypto.SecretKey;
  */
 public class StudentInClassFragment extends Fragment {
     View view;
+    AttendanceApi attendanceApi =  retrofit.create(AttendanceApi.class);
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -110,8 +121,6 @@ public class StudentInClassFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
         ((MainActivity)getActivity()).StoreData("approved", true);
-
-
 
 
 

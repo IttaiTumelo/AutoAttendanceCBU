@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_lectureMenuFragment_to_classRegisterFragment"
             app:destination="@id/classRegisterFragment" />
+        <action
+            android:id="@+id/action_lectureMenuFragment_to_tableFragment"
+            app:destination="@id/tableFragment" />
     </fragment>
     <fragment
         android:id="@+id/studentInClassFragment"
@@ -75,4 +78,9 @@
             android:id="@+id/action_classRegisterFragment_to_lectureMenuFragment"
             app:destination="@id/lectureMenuFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/tableFragment"
+        android:name="com.example.autoattendance.TableFragment"
+        android:label="Time Table"
+        tools:layout="@layout/fragment_table" />
 </navigation>

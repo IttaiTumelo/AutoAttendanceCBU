@@ -61,6 +61,12 @@
             android:layout_height="wrap_content"
             android:text="Mail Register"/>
 
+        <Button
+            android:id="@+id/btn_check_timetable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Check Timetable"/>
+
 
 
 <!--        <LinearLayout-->

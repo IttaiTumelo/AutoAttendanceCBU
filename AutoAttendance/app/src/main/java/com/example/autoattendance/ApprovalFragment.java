@@ -96,10 +96,7 @@ public class ApprovalFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        boolean approved = sharedPref.getBoolean("approved", false);
-//        String studentNumber = sharedPref.getString("studentNumber", "");
-//        int programId = sharedPref.getInt("programId", 0);
+
 
         binding.recyclerViewLecturerCourses.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewLecturerCourses.setHasFixedSize(true);

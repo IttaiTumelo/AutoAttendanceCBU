@@ -17,7 +17,8 @@ public class Student extends BaseEntity {
 
     public int programId;
     public Program program;
-    public List<Attendance> attendance;
+    public List<Lecture> lectures;
+
 
     public Student(String firstName, String lastName, String email, String studentNumber,
                    String password, int Year, int programId) {
@@ -110,12 +111,12 @@ public class Student extends BaseEntity {
         this.program = program;
     }
 
-    public List<Attendance> getAttendance() {
-        return attendance;
+    public List<Lecture> getLectures() {
+        return lectures;
     }
 
-    public void setAttendance(List<Attendance> attendance) {
-        this.attendance = attendance;
+    public void setLectures(List<Lecture> lectures) {
+        this.lectures = lectures;
     }
 
     @Override
@@ -131,7 +132,6 @@ public class Student extends BaseEntity {
                 ", enrolled=" + enrolled +
                 ", programId=" + programId +
                 ", program=" + program +
-                ", attendance=" + attendance +
                 '}';
     }
 }

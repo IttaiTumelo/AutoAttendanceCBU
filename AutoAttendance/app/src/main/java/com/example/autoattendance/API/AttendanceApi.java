@@ -1,7 +1,7 @@
 package com.example.autoattendance.API;
 
-import com.example.autoattendance.Entities.Attendance;
 import com.example.autoattendance.Entities.Course;
+import com.example.autoattendance.Entities.Lecture;
 import com.example.autoattendance.Entities.Program;
 import com.example.autoattendance.Entities.Schedule;
 import com.example.autoattendance.Entities.Student;
@@ -43,22 +43,22 @@ public interface AttendanceApi {
     @GET("student/reject/{id}")
     Call<Student> rejectStudent(@Path("id") int id);
 
-    @GET("course/complete/6")
+    @GET("course/complete/1")
     Call<Course> completeCourse();
 
     @POST("Attendance")
-    Call<Attendance> createAttendance(@Body Attendance attendance);
+    Call<Lecture> createAttendance(@Body Lecture attendance);
 
     @GET("Attendance/current")
-    Call<Integer> getCurrentAttendanceId();
+    Call<Integer> getCurrentLectureId();
 
     @GET("Attendance/{id}")
-    Call<Attendance> getAttendanceById(@Path("id") int id);
+    Call<Lecture> getAttendanceById(@Path("id") int id);
 
     @GET("Attendance/markPresent/{id}")
-    Call<Attendance> markAttendance(@Path("id") int id);
+    Call<Lecture> markAttendance(@Path("id") int id);
 
-    @GET("Attendance/sendMail/{address}")
+    @GET("Attendance/course/1/sendMail/{address}")
     Call<String> sendMail(@Path("address") String address);
     @GET("Schedule/program/{programId}")
     Call<ArrayList<Schedule>> getSchedule(@Path("programId") int programId );

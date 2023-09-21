@@ -149,12 +149,12 @@ public class RegistrationFragment extends Fragment {
                     binding.etPassword2.setError("Passwords do not match");
                     return;
                 }
-                var firstname  =  binding.etFirstName.getText().toString();
-                var lastname  =  binding.etLastName.getText().toString();
-                var password  =  binding.etPassword.getText().toString();
-                var studentNumber  =  binding.etStudentNumber.getText().toString();
-                var year  =  Integer.parseInt(binding.etYear.getText().toString());
-                var program = binding.spProgram.getSelectedItemPosition() +1;
+                String firstname  =  binding.etFirstName.getText().toString();
+                String lastname  =  binding.etLastName.getText().toString();
+                String password  =  binding.etPassword.getText().toString();
+                String studentNumber  =  binding.etStudentNumber.getText().toString();
+                int year  =  Integer.parseInt(binding.etYear.getText().toString());
+                int program = binding.spProgram.getSelectedItemPosition() +1;
 
                 Student student = new Student(
                         firstname,

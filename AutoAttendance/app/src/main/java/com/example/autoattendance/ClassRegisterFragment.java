@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.example.autoattendance.API.AttendanceApi;
 import com.example.autoattendance.Adapter.ClassRegistrationAdapter;
-import com.example.autoattendance.Entities.Attendance;
 import com.example.autoattendance.Entities.Course;
+import com.example.autoattendance.Entities.Lecture;
 import com.example.autoattendance.databinding.FragmentClassRegisterBinding;
 
 import java.util.ArrayList;
@@ -88,7 +88,7 @@ public class ClassRegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        attendanceApi.getCurrentAttendanceId().enqueue(new Callback<Integer>() {
+        attendanceApi.getCurrentLectureId().enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -98,26 +98,28 @@ public class ClassRegisterFragment extends Fragment {
                         binding.btnAddClassRegister.setEnabled(true);
                         return;
                     }
-                    attendanceApi.getAttendanceById(attendanceId).enqueue(new Callback<Attendance>() {
+                    attendanceApi.getAttendanceById(attendanceId).enqueue(new Callback<Lecture>() {
                         @Override
-                        public void onResponse(Call<Attendance> call, Response<Attendance> response) {
+                        public void onResponse(Call<Lecture> call, Response<Lecture> response) {
                             if(response.isSuccessful()) {
-                                Attendance attendance = response.body();
-                                if(attendance.studentsInClass == null) {
-                                    attendance.studentsInClass = new ArrayList<>();
-                                    Toast.makeText(getContext(), "No students in class yet", Toast.LENGTH_SHORT).show();
-                                }
-                                attendanceApi.completeCourse().enqueue(new Callback<Course>() {
-                                    @Override
-                                    public void onResponse(Call<Course> call, Response<Course> response) {
-                                        if(response.isSuccessful()) {
-                                            Course course = response.body();
-                                            Toast.makeText(getContext(), "Course Obtained", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Attendance Obtained", Toast.LENGTH_SHORT).show();
+                                                Lecture attendance = response.body();
+                                                if(attendance.studentsInClass == null) {
+                                                    attendance.studentsInClass = new ArrayList<>();
+                                                    Toast.makeText(getContext(), "No students in class yet", Toast.LENGTH_SHORT).show();
+                                                }
+                                                attendanceApi.completeCourse().enqueue(new Callback<Course>() {
+                                                    @Override
+                                                    public void onResponse(Call<Course> call, Response<Course> response) {
+                                                Toast.makeText(getContext(), "Course Obtaining", Toast.LENGTH_SHORT).show();
+                                                if(response.isSuccessful()) {
+                                                    Toast.makeText(getContext(), "Course Obtaining26549849", Toast.LENGTH_SHORT).show();
+                                                    Course course = response.body();
+                                                    Log.d("TAG", "onResponse: " + course.program.students.size());
+                                                    ClassRegistrationAdapter classRegistrationAdapter = new ClassRegistrationAdapter(getContext(), course, attendance);
+                                                    binding.studentRvClassRegister.setAdapter(classRegistrationAdapter);
+                                                    classRegistrationAdapter.notifyDataSetChanged();
 
-                                            Log.d("TAG", "onResponse: " + course.program.students.size());
-                                            ClassRegistrationAdapter classRegistrationAdapter = new ClassRegistrationAdapter(getContext(), course, attendance);
-                                            binding.studentRvClassRegister.setAdapter(classRegistrationAdapter);
-                                            classRegistrationAdapter.notifyDataSetChanged();
                                         }
                                         else {
                                             Toast.makeText(getContext(), "Error getting courses, get done but not successful: " + response.code(), Toast.LENGTH_SHORT).show();
@@ -135,7 +137,7 @@ public class ClassRegisterFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<Attendance> call, Throwable t) {
+                        public void onFailure(Call<Lecture> call, Throwable t) {
                             Toast.makeText(getContext(), "Server not accessible Error " + t.getCause(), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -162,11 +164,11 @@ public class ClassRegisterFragment extends Fragment {
 
 
 
-                attendanceApi.createAttendance(new Attendance( null, null, 1  )).enqueue(new Callback<Attendance>() {
+                attendanceApi.createAttendance(new Lecture(2)).enqueue(new Callback<Lecture>() {
                     @Override
-                    public void onResponse(Call<Attendance> call, Response<Attendance> response) {
+                    public void onResponse(Call<Lecture> call, Response<Lecture> response) {
                         if (response.isSuccessful()) {
-                            Attendance attendance = response.body();
+                            Lecture attendance = response.body();
 
                             attendanceApi.completeCourse().enqueue(new Callback<Course>() {
                                 @Override
@@ -195,7 +197,7 @@ public class ClassRegisterFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<Attendance> call, Throwable t) {
+                    public void onFailure(Call<Lecture> call, Throwable t) {
                         Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -17,11 +17,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.autoattendance.API.AttendanceApi;
-import com.example.autoattendance.Adapter.ClassRegistrationAdapter;
-import com.example.autoattendance.Entities.Attendance;
-import com.example.autoattendance.Entities.Course;
+import com.example.autoattendance.Entities.Lecture;
 import com.example.autoattendance.databinding.FragmentLectureMenuBinding;
 
-import java.util.ArrayList;
-
-import lombok.var;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -330,14 +323,14 @@ public class LectureMenuFragment extends Fragment {
                     String tempMsg=new String(readBuff,0,msg.arg1);
                     binding.textViewBluetoothMsg.setText(tempMsg);
                     int studentId = Integer.parseInt(tempMsg);
-                    attendanceApi.markAttendance(studentId).enqueue(new Callback<Attendance>() {
+                    attendanceApi.markAttendance(studentId).enqueue(new Callback<Lecture>() {
                         @Override
-                        public void onResponse(Call<Attendance> call, Response<Attendance> response) {
+                        public void onResponse(Call<Lecture> call, Response<Lecture> response) {
                             Toast.makeText(getContext(), "Attendance Marked", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
-                        public void onFailure(Call<Attendance> call, Throwable t) {
+                        public void onFailure(Call<Lecture> call, Throwable t) {
                             Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });

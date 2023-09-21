@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
 import android.os.Message;
@@ -122,6 +123,30 @@ public class StudentInClassFragment extends Fragment {
         this.view = view;
         ((MainActivity)getActivity()).StoreData("approved", true);
 
+        binding.recyclerViewTable.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerViewTable.setHasFixedSize(true);
+
+//        attendanceApi.getSchedule(1).enqueue(new Callback<ArrayList<Schedule>>() {
+//            @Override
+//            public void onResponse(Call<ArrayList<Schedule>> call, Response<ArrayList<Schedule>> response) {
+//                if(!response.isSuccessful()){
+//                    Toast.makeText(getContext(), "Failed: " + response.code(), Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                ArrayList<Schedule> scheduleList = response.body();
+//                TableAdapter tableAdapter = new TableAdapter(getContext(), scheduleList);
+//                binding.recyclerViewTable.setAdapter(tableAdapter);
+//                tableAdapter.notifyDataSetChanged();
+//                Toast.makeText(getContext(), "Success: " + response.code(), Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ArrayList<Schedule>> call, Throwable t) {
+//                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
 
 
         binding.buttonConnect.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +170,7 @@ public class StudentInClassFragment extends Fragment {
                 }
                 for (BluetoothDevice device : bluetoothAdapter.getBondedDevices()) {
                     Toast.makeText(getContext(), "Device: " + device.getName(), Toast.LENGTH_SHORT).show();
-                    if (device.getName().charAt(0) == 'H') {
+                    if (device.getName().charAt(0) == 'j') {
                         binding.textViewStatus.setText(device.getName());
                         bluetoothDevice = device;
                         break;

@@ -140,67 +140,66 @@ public class LoginFragment extends Fragment {
         });
         }
         else if(approved){
-            if(!((MainActivity)getActivity()).checkKeyIntegrity()){
-                Toast.makeText(getContext(), "Your prints may have change, you are required to re-approval with your lecture ", Toast.LENGTH_SHORT).show();
-                attendanceApi.rejectStudent(studentId).enqueue(new Callback<Student>() {
-                    @Override
-                    public void onResponse(Call<Student> call, Response<Student> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Student> call, Throwable t) {
-                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                return;
-            }
-            else {
-
-                Toast.makeText(getContext(), "Your prints are still the same", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), "Starting Auth", Toast.LENGTH_SHORT).show();
-                executor = ContextCompat.getMainExecutor(getContext());
-                biometricPrompt = new BiometricPrompt(getActivity(),
-                        executor, new BiometricPrompt.AuthenticationCallback() {
-                    @Override
-                    public void onAuthenticationError(int errorCode,
-                                                      @NonNull CharSequence errString) {
-                        super.onAuthenticationError(errorCode, errString);
-                        Toast.makeText(getContext(),
-                                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
-                                .show();
-                    }
-
-                    @Override
-                    public void onAuthenticationSucceeded(
-                            @NonNull BiometricPrompt.AuthenticationResult result) {
-                        super.onAuthenticationSucceeded(result);
-                        Toast.makeText(getContext(),
-                                "Authentication succeeded!", Toast.LENGTH_SHORT).show();
-                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_studentInClassFragment2);
-                    }
-
-                    @Override
-                    public void onAuthenticationFailed() {
-                        super.onAuthenticationFailed();
-                        Toast.makeText(getContext(), "Authentication failed",
-                                        Toast.LENGTH_SHORT)
-                                .show();
-                    }
-                });
-
-                promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                        .setTitle("Biometric login need to register class attendance")
-                        .setSubtitle("place your registered finger")
-                        .setNegativeButtonText("Cancel")
-                        .build();
-                biometricPrompt.authenticate(promptInfo);
-            }
+//            if(!((MainActivity)getActivity()).checkKeyIntegrity()){
+//                Toast.makeText(getContext(), "Your prints may have change, you are required to re-approval with your lecture ", Toast.LENGTH_SHORT).show();
+//                attendanceApi.rejectStudent(studentId).enqueue(new Callback<Student>() {
+//                    @Override
+//                    public void onResponse(Call<Student> call, Response<Student> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Student> call, Throwable t) {
+//                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                return;
+//            }
+//            else {
+//
+//                Toast.makeText(getContext(), "Your prints are still the same", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Starting Auth", Toast.LENGTH_SHORT).show();
+//                executor = ContextCompat.getMainExecutor(getContext());
+//                biometricPrompt = new BiometricPrompt(getActivity(),
+//                        executor, new BiometricPrompt.AuthenticationCallback() {
+//                    @Override
+//                    public void onAuthenticationError(int errorCode,
+//                                                      @NonNull CharSequence errString) {
+//                        super.onAuthenticationError(errorCode, errString);
+//                        Toast.makeText(getContext(),
+//                                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
+//                                .show();
+//                    }
+//
+//                    @Override
+//                    public void onAuthenticationSucceeded(
+//                            @NonNull BiometricPrompt.AuthenticationResult result) {
+//                        super.onAuthenticationSucceeded(result);
+//                        Toast.makeText(getContext(),
+//                                "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+//                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_studentInClassFragment2);
+//                    }
+//
+//                    @Override
+//                    public void onAuthenticationFailed() {
+//                        super.onAuthenticationFailed();
+//                        Toast.makeText(getContext(), "Authentication failed",
+//                                        Toast.LENGTH_SHORT)
+//                                .show();
+//                    }
+//                });
+//
+//                promptInfo = new BiometricPrompt.PromptInfo.Builder()
+//                        .setTitle("Biometric login need to register class attendance")
+//                        .setSubtitle("place your registered finger")
+//                        .setNegativeButtonText("Cancel")
+//                        .build();
+//                biometricPrompt.authenticate(promptInfo);
+//            }
 
         }
         else{
 
-            //TODO : Should remove biometric information if any saved in the device
 
         }
 

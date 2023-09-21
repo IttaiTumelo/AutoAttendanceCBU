@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.autoattendance.API.AttendanceApi;
-import com.example.autoattendance.Entities.Attendance;
 import com.example.autoattendance.Entities.Course;
+import com.example.autoattendance.Entities.Lecture;
 import com.example.autoattendance.Entities.Student;
 import com.example.autoattendance.R;
 
@@ -29,8 +29,8 @@ public class ClassRegistrationAdapter extends  RecyclerView.Adapter<ClassRegistr
     List<Student> StudentsInClass = new ArrayList<Student>();
 
     Course course; //TODO : filter by student
-    Attendance attendance; //TODO : filter by student
-    public ClassRegistrationAdapter(Context context, Course course, Attendance attendance) {
+    Lecture attendance; //TODO : filter by student
+    public ClassRegistrationAdapter(Context context, Course course, Lecture attendance) {
         this.context = context;
         this.course = course;
 
